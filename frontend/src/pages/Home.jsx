@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Home = () => {
+
+useEffect(() => {
+ axios.get("http://localhost:3000/posts").then((res)=>{
+    console.log(res.data)
+ })
+}, [])
+    
   const navigate = useNavigate();
 return (
     <main className="bg-gradient-to-br from-blue-50 to-purple-100 min-h-screen w-full p-4">
