@@ -34,7 +34,7 @@ const Home = () => {
             return (
               <div
                 key={post._id}
-                className="post bg-white rounded-xl shadow-md p-4 flex flex-col gap-3 hover:shadow-lg transition-shadow duration-200"
+                className="post hover:scale-105 bg-white rounded-xl shadow-md p-4 flex flex-col gap-3 hover:shadow-lg transition duration-200"
               >
                 <div className="w-full h-70 bg-gray-100  rounded-lg overflow-hidden flex items-center justify-center mb-2">
                   <img
