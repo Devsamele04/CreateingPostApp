@@ -1,50 +1,61 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const Home = () => {
+  const [posts, setposts] = useState([]);
 
-useEffect(() => {
- axios.get("http://localhost:3000/posts").then((res)=>{
-    console.log(res.data)
- })
-}, [])
-    
+  useEffect(() => {
+    axios.get("http://localhost:3000/posts").then((res) => {
+      console.log(res.data.posts);
+      setposts(res.data.posts);
+    });
+  }, []);
+
   const navigate = useNavigate();
-return (
+  return (
     <main className="bg-gradient-to-br from-blue-50 to-purple-100 min-h-screen w-full p-2 sm:p-4">
-        <section className="w-full max-w-7xl mx-auto">
-            <header className="flex flex-col sm:flex-row items-center justify-between px-4 sm:px-6 py-4 shadow-lg rounded-xl bg-white mb-6 sm:mb-8 gap-4">
-                <h1 className="text-2xl sm:text-3xl font-bold text-blue-700 tracking-tight">BookSook</h1>
-                <button
-                    onClick={() => {
-                        navigate("/create-post");
-                    }}
-                    className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg shadow hover:from-blue-700 hover:to-purple-700 transition font-semibold"
-                >
-                    + Create Post
-                </button>
-            </header>
+      <section className="w-full max-w-7xl mx-auto">
+        <header className="flex flex-col sm:flex-row items-center justify-between px-4 sm:px-6 py-4 shadow-lg rounded-xl bg-white mb-6 sm:mb-8 gap-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-blue-700 tracking-tight">
+            BookSook
+          </h1>
+          <button
+            onClick={() => {
+              navigate("/create-post");
+            }}
+            className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg shadow hover:from-blue-700 hover:to-purple-700 transition font-semibold"
+          >
+            + Create Post
+          </button>
+        </header>
 
-            <div className="posts grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8 w-full">
-                <div className="post bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col hover:scale-105 transition-transform duration-300 border border-blue-100">
-                    <img
-                        src="https://images.unsplash.com/photo-1747901718105-bf9beb57ba3a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8"
-                        alt=""
-                        className="w-full h-40 sm:h-48 object-cover bg-gray-200"
-                    />
-                    <div className="p-4 sm:p-6 flex flex-col justify-between flex-1">
-                        <p className="text-gray-700 mb-2 sm:mb-4 text-sm sm:text-base">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos, atque!
-                        </p>
-                        <button className="self-start px-4 sm:px-5 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow hover:from-blue-600 hover:to-purple-600 transition font-medium text-sm sm:text-base">
-                            ❤️ Like : 24
-                        </button>
-                    </div>
+        <div className="posts grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8 w-full">
+          {posts.map((post) => {
+            return (
+              <div
+                key={post._id}
+                className="post bg-white rounded-xl shadow-md p-4 flex flex-col gap-3 hover:shadow-lg transition-shadow duration-200"
+              >
+                <div className="w-full h-70 bg-gray-100  rounded-lg overflow-hidden flex items-center justify-center mb-2">
+                  <img
+                    src={post.imageUrl}
+                    alt={post.caption || "Post image"}
+                    className="object-cover object-center w-full h-full"
+                  />
                 </div>
-            </div>
-        </section>
+                <p className="text-gray-800 text-center font-medium text-base mb-2 line-clamp-2">
+                  {post.caption}
+                </p>
+                <button className="mt-auto px-3 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-md shadow hover:from-blue-600 hover:to-purple-600 transition font-semibold">
+                  ❤️ Likes: {post.likesCount}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </section>
     </main>
-);
+  );
 };
 
 export default Home;
