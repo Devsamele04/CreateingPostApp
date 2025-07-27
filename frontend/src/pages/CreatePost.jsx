@@ -18,7 +18,7 @@ const CreatePost = () => {
     e.preventDefault();
     axios.post("http://localhost:3000/create-post", form).then((res) => {
       console.log(res.data);
-      alert("Post created successfully!");
+      // alert("Post created successfully!");
       setForm({ imageUrl: "", caption: "" }); //reset form fields
       Navigate("/"); // Redirect to home page after successful post creation
     });

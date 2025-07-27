@@ -49,6 +49,19 @@ const Home = () => {
                 <button className="mt-auto px-3 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-md shadow hover:from-blue-600 hover:to-purple-600 transition font-semibold">
                   ❤️ Likes: {post.likesCount}
                 </button>
+                <button
+                  className="mt-1 px-3 py-1 bg-red-600 text-white rounded-md shadow hover:bg-red-600 transition font-semibold"
+                  onClick={async () => {
+                    try {
+                      await axios.delete(`http://localhost:3000/posts/${post._id}`);
+                      setposts(posts.filter((p) => p._id !== post._id));
+                    } catch (err) {
+                      alert("Failed to delete post" + err.message);
+                    }
+                  }}
+                >
+                  🗑️ Delete
+                </button>
               </div>
             );
           })}
